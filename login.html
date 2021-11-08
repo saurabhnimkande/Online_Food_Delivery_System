@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>Signup</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
@@ -14,8 +14,99 @@
         margin: 0;
         font-family: 'Montserrat', sans-serif;
     }
+    #form {
+        width: 100px;
+        margin-top: 10px;
+        margin-left: 10px;
+    }
+    input {
+        margin-bottom: 20px;
+    }
+    #navbar {
+        height: 60px;
+        display: flex;
+        border-bottom: 1px solid #c6c6c6;
+    }
+    #logo {
+        width: 100px;
+        padding-left: 15px;
+    }
+    #navbar > div:nth-child(2) {
+        margin-left:65%;
+    }
+    #navbar > div:nth-child(2) > button {
+        height:60px;
+        width:100px;
+        border: none;
+        font-size:16px;
+    }
+    #navbar > div:nth-child(2) > button:hover {
+        background-color:#c6c6c6;
+        cursor: pointer;
+    }
 </style>
 <body>
-    
+    <div id="navbar">
+        <div>
+            <img src="https://seeklogo.com/images/F/food-logo-59E5A73AFD-seeklogo.com.png" id="logo">
+        </div>
+        <div>
+            <button onclick="menu()">Menu</button>
+            <button onclick="login()">Login</button>
+            <button onclick="signup()">Signup</button>
+        </div>
+    </div>
+    <form id="form" onsubmit="login(event)">
+        
+        <label>Username:</label>
+        <input type="text" id="user">
+        
+        <label>Password:</label>
+        <input type="password" id="pass">
+
+        <input type="submit">
+    </form>
 </body>
+<script>
+    function menu() {
+        window.location.href="./menu.html";
+    }
+    function login() {
+        window.location.href="./login.html";
+    }
+    function signup() {
+        window.location.href="./signup.html"
+    }
+
+    function login(e) {
+        e.preventDefault();
+        let form = document.getElementById("form");
+        let user_data= {
+            username: form.user.value,
+            password: form.pass.value,
+        }
+
+        let data=JSON.stringify(user_data);
+
+        fetch("https://masai-api-mocker.herokuapp.com/auth/login", {
+            method: "POST",
+
+            body: data,
+
+            headers : {
+                "Content-Type": "application/json",
+            }
+        })
+        .then((res) => {
+            return res.json();
+        })
+        .then((res) => {
+            alert(res.message);
+            console.log(res);
+            if(!res.error) {
+                window.location.href="./menu.html"
+            }
+        })
+    }
+</script>
 </html>
