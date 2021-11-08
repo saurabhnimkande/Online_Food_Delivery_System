@@ -36,6 +36,20 @@
         background-color:#c6c6c6;
         cursor: pointer;
     }
+    #main-container {
+        display: grid;
+        grid-template-columns: 500px 200px;
+    }
+    #container {
+        margin-left: 50px;
+        margin-top: 20px;
+    }
+    #container > div > img {
+        width:150px;
+    }
+    #checkout {
+        margin-top: 20px;
+    }
 </style>
 <body>
     <div>
@@ -48,7 +62,11 @@
             </div>
         </div>
         <div id="main-container">
-
+            <div id=container></div>
+            <div id="checkout">
+                <p id="price">152</p>
+                <button onclick="orderPlaced()">Place Order</button>
+            </div>
         </div>
     </div>
 </body>
@@ -61,11 +79,59 @@
         let data=JSON.parse(localStorage.getItem("cart_food"));
         data.forEach((el)=> {
 
-            let parent=document.getElementById("main-container");
-            
+            let parent = document.getElementById("container")
+        
+            let div=document.createElement('div');
 
+            let img=document.createElement('img');
+            img.src=el.strMealThumb;
 
+            let h4=document.createElement('h4');
+            h4.innerText=el.strMeal;
+
+            let h5=document.createElement('h5');
+            h5.innerText="Price: "+(el.idMeal-50000) + " Rs";
+            sum=sum+Number(el.idMeal-50000);
+
+            div.append(img,h4,h5)
+            parent.append(div);
         })
     }
+    getItems();
+
+    let price=document.getElementById('price');
+    price.innerText="Total Price: "+ sum + " Rs";
+
+    function orderPlaced() {
+        let div=document.getElementById('container');
+        let div1=document.getElementById("checkout");
+
+        div1.innerHTML=null;
+        div.innerHTML=null;
+
+        let h2=document.createElement('h2');
+        h2.innerHTML="Order Placed Successfully";
+
+        div.append(h2)
+        alert("Your order is accepted")
+
+        let timeout1=setTimeout(() =>{
+            alert("Your order is being cooked")
+        },3000)
+
+        let timeout2=setTimeout(() =>{
+            alert("Your order is ready")
+        },11000)
+
+        let timeout3=setTimeout(() =>{
+            alert("Order out for delivery")
+        },21000)
+
+        let timeout4=setTimeout(() =>{
+            alert("Order delivered")
+        },23000)
+    }
+
+
 </script>
 </html>
